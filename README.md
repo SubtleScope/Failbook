@@ -1,5 +1,13 @@
 # Failbook - A vulnerable web app
 
+## Authors
+- Nathan Wray (m4dh4tt3r)
+- Andrew Myers
+
+## Contributors
+- Justin Wray, Flags and Development
+- Benjamin Heise, Flags and Development
+
 ## Description
 - Failbook is a vulnerable web application (app) used for training and educational purposes. Failbook was designed to simulate social networking web apps - similar in look to Facebook with a messaging platform similar to that of Twitter.
 
