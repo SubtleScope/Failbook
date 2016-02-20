@@ -110,8 +110,6 @@ The instructions below, describe how to deploy Failbook from the archives.
 ![Failbook](/screenshots/Failbook.jpg?raw=true "Failbook") <br />
 - Login: <br />
 ![Login](/screenshots/FailbookLogin.jpg?raw=true "Login") <br />
-- Account: <br />
-![Account](/screenshots/FailbookAccount.jpg?raw=true "Account") <br />
 - Password Reset: <br />
 ![Reset](/screenshots/FailbookLogin.jpg?raw=true "Reset") <br />
 
