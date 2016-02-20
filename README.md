@@ -102,8 +102,18 @@ The instructions below, describe how to deploy Failbook from the archives.
 ## userGen Script
 - Failbook comes with a script to generate users - can be generate random users either legitimate looking users or junk users
 	
-- Usage:
+- Example Usage:
   - ./userGen.sh -real -n 1000 -t https://failbook.com -u 
+
+## Screenshots
+- Faibook: <br />
+![Failbook](/screenshots/Failbook.jpg?raw=true "Failbook") <br />
+- Login: <br />
+![Login](/screenshots/FailbookLogin.jpg?raw=true "Login") <br />
+- Account: <br />
+![Account](/screenshots/FailbookAccount.jpg?raw=true "Account") <br />
+- Password Reset: <br />
+![Reset](/screenshots/FailbookLogin.jpg?raw=true "Reset") <br />
 
 ## License	
 Failbook - A Vulnerable Web Application Platform
