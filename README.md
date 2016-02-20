@@ -111,7 +111,7 @@ The instructions below, describe how to deploy Failbook from the archives.
 - Login: <br />
 ![Login](/screenshots/FailbookLogin.jpg?raw=true "Login") <br />
 - Password Reset: <br />
-![Reset](/screenshots/FailbookLogin.jpg?raw=true "Reset") <br />
+![Reset](/screenshots/FailbookReset.jpg?raw=true "Reset") <br />
 
 ## License	
 Failbook - A Vulnerable Web Application Platform
