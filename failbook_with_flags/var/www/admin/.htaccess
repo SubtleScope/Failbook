@@ -1,0 +1,5 @@
+AuthUserFile /var/www/.htpasswd
+AuthName "Failbook Experimental"
+AuthType Basic
+Require valid-user
+Order Deny,Allow

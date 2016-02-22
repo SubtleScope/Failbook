@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.php
+Disallow: /secret.php
+Disallow: /test.php
+Disallow: /cat.php
+Disallow: /admin/*
+Allow: /

@@ -1,0 +1,15 @@
+zone "failbook.com" {
+        type master;
+	file "/etc/bind/db.failbook.com";
+};
+
+zone "1.168.192.in-addr.arpa" {
+	type master;
+	file "/etc/bind/db.192";
+};
+
+zone "0.168.192.in-addr.arpa" {
+	type master;
+	notify no;
+	file "/etc/bind/db.failbook.com";
+};

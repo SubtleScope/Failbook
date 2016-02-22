@@ -1,0 +1,28 @@
+<script src="/scripts/jquery.js"></script>
+<script>
+//add in button support
+<!-- <meta id="refresh" http-equiv="refresh" content="5" /> -->
+</script>
+
+
+if text / imae are empty change text to refresh and refresh
+
+$('#refresh').click(function() {
+   if ($('#text').val().length == 0 && $('#image').val().length == 0) {
+        $("#refresh").text('Refresh Page'); 
+	location.reload();
+   } else {
+	//do nothing
+   }
+});
+
+
+<script src="scripts/jquery.js"></script>
+<script>
+$(document).ready(function() {
+	setinterval(function() {
+		location.reload;
+	}, 1000);
+	$ajaxSetup({ async: false, cache: false });
+});
+</script>

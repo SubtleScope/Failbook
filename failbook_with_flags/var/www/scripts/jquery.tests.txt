@@ -1,0 +1,70 @@
+<script>
+$('#refresh').click(function() {
+   if ($('#text').val().length == 0 && $('#image').val().length == 0) {
+	//document.getElementById('refresh').value = "Refresh Page";
+        //$("#refresh").text() == "Refresh Page"; 
+	$('#refresh').html("<button id=\"refresh\" class=\"radius title\" name=\"postbut\">Refresh</button>");
+	document.reload();
+   } else {
+	$('#refresh').html("<button id=\"refresh\" class=\"radius title\" name=\"postbut\">Post as <?php echo($_SESSION['fname']." ".$_SESSION['lname']); ?> </button>");
+   }
+});
+</script>
+
+
+$('#text').keyup(function() {
+	$('#refresh').html("<button id=\"refresh\" class=\"radius title\" name=\"postbut\">Post as <?php echo($_SESSION['fname']." ".$_SESSION['lname']); ?> </button>");
+   }
+});
+
+
+
+
+
+
+<script>
+//$('#text').keyup(function() {
+document.load(function() {
+   if ($('#text').val().length == 0 && $('#image').val().length == 0) {
+	//document.getElementById('refresh').value = "Refresh Page";
+        $("#refresh").text("Refresh Page"); 
+	//$('#refresh').html("<button id=\"refresh\" class=\"radius title\" name=\"postbut\">Refresh</button>");
+        $('#refresh').click(function() {
+	    document.reload();
+        });
+   } else {
+	$('#refresh').text("Post as <?php echo($_SESSION['fname']." ".$_SESSION['lname']); ?>"); 
+	//$('#refresh').html("<button id=\"refresh\" class=\"radius title\" name=\"postbut\">Post as <?php echo($_SESSION['fname']." ".$_SESSION['lname']); ?> </button>");
+   }
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+document.load(function() {
+	if ($('#text').val().length == 0 && $('#image').val().length == 0) {
+		$('#refresh').show();
+		$('#refresh1').hide();
+	} else {
+		$('#refresh').hide();
+		$('#refresh1').show();
+        }
+});
+
+$('#text').keyup(function() {
+		$('#refresh').hide();
+		$('#refresh1').show();
+	});
+	$('#image').click(function() {
+		$('#refresh').hide();
+		$('#refresh1').show();
+	});
