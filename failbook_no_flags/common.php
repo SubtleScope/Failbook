@@ -1,25 +1,5 @@
 <?php
 
-  /*
-    Failbook - A Vulnerable Web Application Platform
-    Copyright (C) 2015 Andy Meyers, Nathan Wray (m4dh4tt3r)
-
-    This file is part of Failbook.
-
-    Failbook is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Failbook is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Failbook.  If not, see <http://www.gnu.org/licenses/>.
-  */
-
 initDb();
 
 function isNullOrEmpty( $var ) {
@@ -103,7 +83,6 @@ function getAvatar( $uid ) {
 	    return "avatars/".$files[($uid + sizeof($files)) % sizeof($files)];
 	}
 }
-
 
 function insertNewUser( $uid, $username, $fname, $lname, $pwd, $avatar ) {
 	$ret = FALSE;
@@ -197,6 +176,40 @@ function searchPosts($query=NULL) {
 		}
 	}
 	mysql_close();
+	return $ret;
+}
+
+function getUidFromUsername($username) {
+	$ret = FALSE;
+	$sql = "SELECT uid FROM users WHERE username = \"$username\";";
+
+        initDB();
+        $res = mysql_query( $sql );
+
+	if( $res && mysql_num_rows( $res ) > 0 ) {
+                $ret = array();
+                while( $row = mysql_fetch_assoc( $res ) ) {
+                        $ret[] = $row;
+                }
+        }
+        mysql_close();
+        return $ret;
+}
+
+function isValidUser($username) {
+	$ret = FALSE;
+        $sql = "SELECT 1 FROM users WHERE username = \"$username\" LIMIT 1;";
+
+        initDB();
+        $res = mysql_query( $sql );
+
+        if( $res && mysql_num_rows( $res ) > 0 ) {
+                $ret = array();
+                while( $row = mysql_fetch_assoc( $res ) ) {
+                        $ret[] = $row;
+                }
+        }
+        mysql_close();
 	return $ret;
 }
 
@@ -380,6 +393,11 @@ function adminPortal() {
    	$table .= "<td>lname</td>";
    	$table .= "<td>pass</td>";
 	$table .= "</tr>";
+   	$table .= "<tr>";
+   	$table .= "<td>flaguser</td>";
+   	$table .= "<td>flag</td>";
+   	$table .= "<td>user</td>";
+        $table .= "<td>Flag3: WW91IHdpbiBzb21lIGFuZCBZb3UgbG9zZSBzb21lLgo=</td>";
    	$table .= "<tr>";
  	while( $row = mysql_fetch_row( $res ) )
  	{

@@ -84,7 +84,6 @@ function getAvatar( $uid ) {
 	}
 }
 
-
 function insertNewUser( $uid, $username, $fname, $lname, $pwd, $avatar ) {
 	$ret = FALSE;
 	
@@ -177,6 +176,40 @@ function searchPosts($query=NULL) {
 		}
 	}
 	mysql_close();
+	return $ret;
+}
+
+function getUidFromUsername($username) {
+	$ret = FALSE;
+	$sql = "SELECT uid FROM users WHERE username = \"$username\";";
+
+        initDB();
+        $res = mysql_query( $sql );
+
+	if( $res && mysql_num_rows( $res ) > 0 ) {
+                $ret = array();
+                while( $row = mysql_fetch_assoc( $res ) ) {
+                        $ret[] = $row;
+                }
+        }
+        mysql_close();
+        return $ret;
+}
+
+function isValidUser($username) {
+	$ret = FALSE;
+        $sql = "SELECT 1 FROM users WHERE username = \"$username\" LIMIT 1;";
+
+        initDB();
+        $res = mysql_query( $sql );
+
+        if( $res && mysql_num_rows( $res ) > 0 ) {
+                $ret = array();
+                while( $row = mysql_fetch_assoc( $res ) ) {
+                        $ret[] = $row;
+                }
+        }
+        mysql_close();
 	return $ret;
 }
 
