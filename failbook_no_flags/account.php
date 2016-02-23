@@ -133,7 +133,7 @@ if( isset($_FILES['image']) && $_FILES['image']['size'] > 0 ) {
 <!--loginbox-->
 
 <div class="userpostbox radius">
-<h3><font color="white">Yor Posts:</font></h3>
+<h3><font color="white">Your Posts:</font></h3>
 </div>
 
 <?
