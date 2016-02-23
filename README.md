@@ -34,7 +34,7 @@
   - Admin Portal
   - DNS configured, Points to failbook.com
   - Web App configured with static 192.168.1.134 address
-  - You will need to configure the database password of your choosing in common.php, Failbook was designed with insecurity in mind, so the original build had the services and files running and owned by root. Likewise, the database connection usese the root login with no password. Feel free to change this to whatever you'd like.
+  - You will need to configure the database password of your choosing in common.php, Failbook was designed with insecurity in mind, so the original build had the services and files running and owned by root. Likewise, the database connection used the root login with no password. Feel free to change this to whatever you'd like.
 
 ## Credentials
 - Ubuntu Credentials: failbook/failbook
