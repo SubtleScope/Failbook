@@ -6,7 +6,7 @@
 
 ## Contributors
 - Justin Wray, Flags and Development
-- Benjamin Heise, Flags and Development
+- [Benjamin Heise](https://github.com/benheise), Flags and Development
 
 ## Description
 - Failbook is a vulnerable web application (app) used for training and educational purposes. Failbook was designed to simulate social networking web apps - similar in look to Facebook with a messaging platform similar to that of Twitter.
