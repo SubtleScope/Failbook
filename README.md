@@ -99,7 +99,24 @@ The instructions below, describe how to deploy Failbook from the archives.
 
   - Create a user, login as Tom
   - You are ready to go!
-	
+
+## Notes
+
+- Domain Name
+  - Failbook is configured to use the domain failbook.com with a static IP of 192.168.1.139. If you are using 
+    Failbook out of the box, then you need to use this. Otherwise, you can modify the bind configurations to 
+    use the IP address that you want.
+  - If you are using the default implementation, then you will need to set your DNS address to 192.168.1.139
+    in order for failbook.com to resolve properly as well as having your host in the 192.168.1.0/24 address 
+    space.
+
+  - failbook.com is not owned by the authors and is used in this readme as a placeholder for how to configure 
+    and use the commands in your local faibook instance.
+  - This project has no affilitation with the real failbook.com.
+  - Please do not attack the real failbook.com. The authors of this project are not responsible or liable for 
+    your actions. Please follow your local, state, federal, and international laws. You are responisble for your
+    own actions, please act responsibly. 
+
 ## userGen Script
 - Failbook comes with a script to generate users - the generated users can be either random users or legitimate looking users.
 
