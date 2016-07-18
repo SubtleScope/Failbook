@@ -120,6 +120,9 @@ The instructions below, describe how to deploy Failbook from the archives.
 - Looking to find the flags?
   - A list of the available flags is listed in the flag_lists.txt
 
+- Think you found a flag, but aren't sure?
+  - Check submit.php with the decoded flag value to see if it is a valid flag.
+
 - Stuck on a challenge? Can't find a flag?
   - Sometimes you get stuck, it happens. While I normally wouldn't release this walkthrough, it has been requested by Failbook 
     users.
