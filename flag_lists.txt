@@ -1,0 +1,15 @@
+Failbook Flag List
+
+	Can you find them all?
+
+
+	1. Find Flag1.			8. 	Find Flag 8.
+	2. Find Flag2.			9. 	What is the md5sum of Flag9 Private Key?
+	3. Find Flag3. 			10. Find Flag10.
+	4. Find Flag4. 			11. Find Flag11.
+	5. Find Flag5. 			12. Find Flag12.
+	6. Find Flag6. 			13. Find Flag13.
+	7. Find Flag7. 			14. Find Flag14.
+							15. What is the password for the form?
+							
+	Flags look like: Flag #: <Encoded Message>
