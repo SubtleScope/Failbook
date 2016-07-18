@@ -117,6 +117,21 @@ The instructions below, describe how to deploy Failbook from the archives.
     your actions. Please follow your local, state, federal, and international laws. You are responisble for your
     own actions, please act responsibly. 
 
+- Looking to find the flags?
+  - A list of the available flags is listed in the flag_lists.txt
+
+- Stuck on a challenge? Can't find a flag?
+  - Sometimes you get stuck, it happens. While I normally wouldn't release this walkthrough, it has been requested by Failbook 
+    users.
+  - Please, do yourself a favor and try to work through the flags, it will make you better in the end; however, if you're stuck
+    and can't get passed a challenge, this guide will help.
+  - The guide goes through a possible way to solve each flag. There are many different ways they can be solved, so if you find
+    a way and want to share, feel free to do so.
+  - Most importantly, have fun and keep honing your skills - for good and not evil. Also, only on systems you own or are approved
+    to test. Never use these skills against a system that you are not authorized to access or test. We are not responsible or
+    liable for using these methods against systems that are not your own. We are not liable if you break your own system either.
+    So be careful with running commands and files that people have shared on websites as they can be dangerous. 
+
 ## userGen Script
 - Failbook comes with a script to generate users - the generated users can be either random users or legitimate looking users.
 
