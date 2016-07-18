@@ -101,10 +101,37 @@ The instructions below, describe how to deploy Failbook from the archives.
   - You are ready to go!
 	
 ## userGen Script
-- Failbook comes with a script to generate users - can be generate random users either legitimate looking users or junk users
+- Failbook comes with a script to generate users - the generated users can be either random users or legitimate looking users.
+
+  The users are generated and then "post" to the website with a random post message. The script can be used to generate users
+  and have them post to the website. It can also be used to promote a certain user's post, promoting it to the top liked post.
+
+  Update: 18 July 2016, added support to turn on SSL support when running Failbook over HTTPS
 	
 - Example Usage:
+  - ./userGen.sh -h
+
   - ./userGen.sh -real -n 1000 -t https://failbook.com -u 
+
+  - Sample legitimate users:
+
+    Command: ./userGen.sh -real -n 10 -t https://failbook.com -s -u
+
+    First Name: Louise
+    Last Name: Rowe
+
+    First Name: Iluminada
+    Last Name: Gallagher
+
+  - Sample random users:
+
+    Command: ./userGen.sh -rand -n 10 -t https://failbook.com -s -u
+
+    First Name: l95kcD4X
+    Last Name: l95kcD4X
+
+    First Name: 2dPsevHm
+    Last Name: 2dPsevHm
 
 ## Screenshots
 - Faibook: <br />

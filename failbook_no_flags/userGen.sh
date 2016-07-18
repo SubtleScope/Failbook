@@ -36,7 +36,9 @@ agentList=("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/
 realVal=0
 randVal=1
 likePost=0
+insecure=""
 userCount=250
+webProt="http"
 userPid="1886239931"
 genUser=$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 8)
 userAgent="Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0"
@@ -65,6 +67,9 @@ help() {
     echo ""
     echo -e "\t-l,--like"
     echo -e "\t => Toggle this option to enable all generated users to like a certain user's post, used with the -p option."
+    echo ""
+    echo -e "\t-s,--ssl"
+    echo -e "\t => Sets the option to use https over http."
     echo ""
     echo -e "\t-t,--target"
     echo -e "\t => Sets the desired Failbook host IP/hostname."
@@ -121,6 +126,14 @@ do
        continue
     fi
 
+    if [ "${1}" = "-s" ] || [ "${1}" = "--ssl" ]
+    then
+       shift
+       webProt="https"
+       insecure="-k"
+       continue
+    fi
+
     if [ "${1}" = "-t" ] || [ "${1}" = "--target" ] 
     then
        shift
@@ -155,19 +168,19 @@ do
        userAgent=${agentList[$RANDOM % ${#agentList[@]}]}
 
        # Create User Account
-       curl -A "${userAgent}" -d "fname=${genUser}&lname=${genUser}&username=${genUser}&password=${genUser}&pconfirm=${genUser}" "http://${targetSys}/register.php"
+       curl "${insecure}" -A "${userAgent}" -d "fname=${genUser}&lname=${genUser}&username=${genUser}&password=${genUser}&pconfirm=${genUser}" "${webProt}://${targetSys}/register.php"
 
        # Login as User
-       curl --insecure -A "${userAgent}" -c "/root/cookie/cookie$genUser.txt" -d "username=$genUser&pass=$genUser" "http://${targetSys}/login.php"
+       curl "${insecure}" -A "${userAgent}" -c "/root/cookie/cookie$genUser.txt" -d "username=$genUser&pass=$genUser" "${webProt}://${targetSys}/login.php"
 
        # Create Post as User
        postText=${postList[$RANDOM % ${#postList[@]}]}
-       curl --insecure -A "${userAgent}" -b "/root/cookie/cookie$genUser.txt" -d "text=${postText}" "http://${targetSys}/posts.php"
+       curl "${insecure}" -A "${userAgent}" -b "/root/cookie/cookie$genUser.txt" -d "text=${postText}" "${webProt}://${targetSys}/posts.php"
 
        if [ "${likePost}" == "1" ]
        then 
           # Like a User's Post
-          curl --insecure -A "${userAgent}" -b "/root/cookie/cookie$genUser.txt" -d "pid=${userPid}" "http://${targetSys}/userlikes.php"
+          curl "${insecure}" -A "${userAgent}" -b "/root/cookie/cookie$genUser.txt" -d "pid=${userPid}" "${webProt}://${targetSys}/userlikes.php"
        fi
 
        echo "${i}: ${genUser} ${genUser}" >> /root/cookie/userList.txt
@@ -191,18 +204,19 @@ do
        userName=$(echo ${fnameSet,,} | head -c 1 && echo -n "${middleLtr}" && echo ${lnameSet,,})       
 
        # Create User Account
-       curl -A "${userAgent}" -d "fname=${fnameSet}&lname=${lnameSet}&username=${userName}&password=${genPass}&pconfirm=${genPass}" "http://${targetSys}/register.php"
+       curl "${insecure}" -A "${userAgent}" -d "fname=${fnameSet}&lname=${lnameSet}&username=${userName}&password=${genPass}&pconfirm=${genPass}" "${webProt}://${targetSys}/register.php"
   
        # Login as User
-       curl --insecure -A "${userAgent}" -c "/root/cookie/cookie_${userName}.txt" -d "username=${userName}&pass=${genPass}" "http://${targetSys}/login.php"
+       curl "${insecure}" -A "${userAgent}" -c "/root/cookie/cookie_${userName}.txt" -d "username=${userName}&pass=${genPass}" "${webProt}://${targetSys}/login.php"
 
        # Create Post as User
        postText=${postList[$RANDOM % ${#postList[@]}]}
-       curl --insecure -A "${userAgent}" -b "/root/cookie/cookie_${userName}.txt" -d "text=${postText}" "http://${targetSys}/posts.php"
+       curl "${insecure}" -A "${userAgent}" -b "/root/cookie/cookie_${userName}.txt" -d "text=${postText}" "${webProt}://${targetSys}/posts.php"
+
        if [ "${likePost}" == "1" ]
        then
           # Like a User's Post
-          curl --insecure -A "${userAgent}" -b "/root/cookie/cookie_${userName}.txt" -d "pid=${userPid}" "http://${targetSys}/userlikes.php"
+          curl "${insecure}" -A "${userAgent}" -b "/root/cookie/cookie_${userName}.txt" -d "pid=${userPid}" "${webProt}://${targetSys}/userlikes.php"
        fi
 
        echo "${i}: ${userName} ${genPass} ${userAgent}" >> /root/cookie/userList.txt
