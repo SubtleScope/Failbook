@@ -111,11 +111,11 @@ The instructions below, describe how to deploy Failbook from the archives.
 - Example Usage:
   - ./userGen.sh -h
 
-  - ./userGen.sh -real -n 1000 -t https://failbook.com -u 
+  - ./userGen.sh -real -n 1000 -t failbook.com -u 
 
   - Sample legitimate users:
 
-    Command: ./userGen.sh -real -n 10 -t https://failbook.com -s -u
+    Command: ./userGen.sh -real -n 10 -t failbook.com -s -u
 
     First Name: Louise
     Last Name: Rowe
@@ -125,7 +125,7 @@ The instructions below, describe how to deploy Failbook from the archives.
 
   - Sample random users:
 
-    Command: ./userGen.sh -rand -n 10 -t https://failbook.com -s -u
+    Command: ./userGen.sh -rand -n 10 -t failbook.com -s -u
 
     First Name: l95kcD4X
     Last Name: l95kcD4X
