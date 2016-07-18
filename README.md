@@ -103,10 +103,10 @@ The instructions below, describe how to deploy Failbook from the archives.
 ## Notes
 
 - Domain Name
-  - Failbook is configured to use the domain failbook.com with a static IP of 192.168.1.139. If you are using 
+  - Failbook is configured to use the domain failbook.com with a static IP of 192.168.1.134. If you are using 
     Failbook out of the box, then you need to use this. Otherwise, you can modify the bind configurations to 
     use the IP address that you want.
-  - If you are using the default implementation, then you will need to set your DNS address to 192.168.1.139
+  - If you are using the default implementation, then you will need to set your DNS address to 192.168.1.134
     in order for failbook.com to resolve properly as well as having your host in the 192.168.1.0/24 address 
     space.
 
