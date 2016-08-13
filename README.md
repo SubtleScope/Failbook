@@ -15,13 +15,13 @@
 
 ## Requirements
 - Ubuntu 13.04
--- If you are using Ubuntu 13.04 Server, then you will need to update your sources.list to be able to download the required packages.
--- cp /etc/apt/sources.list /etc/apt/sources.list.bak
--- sed -i 's/archive.ubuntu/old-releases.ubuntu/g' /etc/apt/sources.list
--- Source: http://askubuntu.com/questions/498918/404-not-found-error-while-updating-using-aptitude
+  - If you are using Ubuntu 13.04 Server, then you will need to update your sources.list to be able to download the required packages.
+  - cp /etc/apt/sources.list /etc/apt/sources.list.bak
+  - sed -i 's/archive.ubuntu/old-releases.ubuntu/g' /etc/apt/sources.list
+  - Source: http://askubuntu.com/questions/498918/404-not-found-error-while-updating-using-aptitude
 - LAMP: PHP 5.4.9, MySQL 5.5.34, and Apache 2.2.22
--- php5-mysql, php5-common, bind 9.9.2-P1, and php5-cli 
--- bind9
+- php5-mysql, php5-common, bind 9.9.2-P1, and php5-cli 
+- bind9
 	
 - Note: Failbook was built shortly after the release of Ubuntu 13.04. While newer versions of the software exist, to maintain the web app's vulnerable state, we have not upgraded Failbook. Much of the code is depricated in newer versions of php.
 	
