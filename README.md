@@ -185,6 +185,13 @@ The instructions below, describe how to deploy Failbook from the archives.
 - Public View 2: <br />
 ![Public View 2](/screenshots/PublicView2.jpg?raw=true "Public View 2") <br />
 
+## style.css
+Failbook makes use of Facebook CSS which can be found here:
+
+http://w3lessons.info/2013/10/17/facebook-style-homepage-design-with-registration-form-login-form-using-css3/
+
+Author: Karthikeyan K.
+
 ## License	
 Failbook - A Vulnerable Web Application Platform
 Copyright (C) 2015 Andy Meyers, Nathan Wray (m4dh4tt3r)
