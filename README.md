@@ -42,9 +42,11 @@
   - You will need to configure the database password of your choosing in common.php, Failbook was designed with insecurity in mind, so the original build had the services and files running and owned by root. Likewise, the database connection used the root login with no password. Feel free to change this to whatever you'd like.
 
 ## Credentials
-- Ubuntu Credentials: failbook/failbook
-- Failbook Admin Credentials: tom/tomisnumber1!
-- Database Credentials: failuser/failuser
+- Failbook was originally created with the following credentials
+  - Ubuntu Credentials: failbook/failbook
+- Web App Credentials
+  - Failbook Admin Credentials: tom/tomisnumber1!
+  - Database Credentials: failuser/failuser
 
 ## Installation
 Note: Failbook is being released with 2 archives, 1 with flags and the other with just the core Failbook files.
