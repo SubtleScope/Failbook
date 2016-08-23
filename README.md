@@ -56,6 +56,16 @@ Likewise, the Failbook VM has been released with the flags built-in, so it can b
 
 The instructions below, describe how to deploy Failbook from the archives. 
 
+- Set up the IP Configuration
+
+- vi /etc/network/interfaces
+  - iface eth0 inet static
+  -	address 192.168.1.134
+  -	netmask 255.255.255.0
+  -	gateway 192.168.1.1
+  -	dns-search 192.168.1.134
+  -	dns-nameserver 192.168.1.134
+
 - Install the "No Flags" version
   - sudo su -
   - apt-get install php5 php5-mysql mysql-server apache2 bind9
